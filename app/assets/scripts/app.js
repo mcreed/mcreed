@@ -6,13 +6,13 @@ var snd = new Audio("/assets/audio/pipe.mp3");
 snd.volume = 0.8;
 
 var snd2 = new Audio("/assets/audio/powerup.mp3");
-snd.volume = 0.8;
+snd2.volume = 0.8;
 
 var snd3 = new Audio("/assets/audio/secret.mp3");
-snd.volume = 0.8;
+snd3.volume = 0.8;
 
 var snd4 = new Audio("/assets/audio/jump.mp3");
-snd.volume = 0.8;
+snd4.volume = 0.8;
 
 // Jquery
 $(document).ready(function() {
