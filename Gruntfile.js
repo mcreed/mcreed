@@ -1,5 +1,6 @@
 module.exports = function(grunt) {
 
+    // For rev cache busting
     var globalConfig = {
         rev: ((new Date()).valueOf().toString()) + (Math.floor((Math.random()*1000000)+1).toString())
     };
@@ -11,8 +12,8 @@ module.exports = function(grunt) {
         concat: {
             build: {
                 src: [
-                    'app/assets/scripts/vendor/*.js', // All JS in the libs folder
-                    'app/assets/scripts/app.js'  // This specific file
+                    'app/assets/scripts/vendor/*.js',
+                    'app/assets/scripts/app.js'
                 ],
                 dest: 'dist/assets/scripts/app.js',
             }
@@ -38,7 +39,7 @@ module.exports = function(grunt) {
 
         compass: {
             build: {
-                options: {              // Target options
+                options: {
                     sassDir: 'app/assets/styles',
                     cssDir: 'dist/assets/styles',
                     environment: 'production',
@@ -46,6 +47,15 @@ module.exports = function(grunt) {
                 }
             }
         },
+
+        rename: {
+            main: {
+                files: [
+                    {src: ['dist/assets/styles/app.css'], dest: 'dist/assets/styles/app.min.<%= globalConfig.rev %>.css'},
+                ]
+            }
+        },
+
 
         jshint: {
             options: {
@@ -61,13 +71,13 @@ module.exports = function(grunt) {
             //afterconcat: ['dist/assets/app.min.js']
         },
 
-        htmlmin: {                                     // Task
-            build: {                                      // Target
-                options: {                                 // Target options
+        htmlmin: {
+            build: {
+                options: {
                     removeComments: true,
                     collapseWhitespace: true
                 },
-                files: {                                   // Dictionary of files
+                files: {
                     'dist/index.html': 'app/index.html'
                 }
             }
@@ -92,14 +102,17 @@ module.exports = function(grunt) {
 
         replace: {
             build: {
-                src: ['dist/*.html', 'dist/**/*.css','dist/**/*.js'],             // source files array (supports minimatch)
+                src: ['dist/*.html', 'dist/**/*.css','dist/**/*.js'],
                 overwrite: true,
                 replacements: [{
-                    from: '/assets/',                   // string replacement
+                    from: '/assets/',
                     to: '//cdn.mcreed.com/mcreed/'
                 },{
-                    from: 'app.min.js',                   // string replacement
+                    from: 'app.min.js',
                     to: 'app.min.<%= globalConfig.rev %>.js'
+                },{
+                    from: 'app.css',
+                    to: 'app.min.<%= globalConfig.rev %>.css'
                 }]
             }
         },
@@ -170,10 +183,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-text-replace');
     grunt.loadNpmTasks('grunt-sftp-deploy');
-    grunt.loadNpmTasks('grunt-rev');
-    grunt.loadNpmTasks('grunt-rev');
+    grunt.loadNpmTasks('grunt-contrib-rename');
 
-    grunt.registerTask('default', ['clean', 'concat', 'compass', 'jshint', 'uglify', 'imagemin', 'htmlmin', 'copy', 'replace', 'watch']);
+    grunt.registerTask('default', ['clean', 'concat', 'compass', 'jshint', 'uglify', 'imagemin', 'htmlmin', 'copy', 'rename', 'replace', 'watch']);
     grunt.registerTask('deploy:assets', ['sftp-deploy:cdn']);
     grunt.registerTask('deploy', ['sftp-deploy:production']);
 
