@@ -1,6 +1,11 @@
 module.exports = function(grunt) {
 
+    var globalConfig = {
+        rev: ((new Date()).valueOf().toString()) + (Math.floor((Math.random()*1000000)+1).toString())
+    };
+
     grunt.initConfig({
+        globalConfig: globalConfig,
         pkg: grunt.file.readJSON('package.json'),
 
         concat: {
@@ -16,7 +21,7 @@ module.exports = function(grunt) {
         uglify: {
             build: {
                 src: 'dist/assets/scripts/app.js',
-                dest: 'dist/assets/scripts/app.min.js'
+                dest: 'dist/assets/scripts/app.min.<%= globalConfig.rev %>.js'
             }
         },
 
@@ -92,6 +97,9 @@ module.exports = function(grunt) {
                 replacements: [{
                     from: '/assets/',                   // string replacement
                     to: '//cdn.mcreed.com/mcreed/'
+                },{
+                    from: 'app.min.js',                   // string replacement
+                    to: 'app.min.<%= globalConfig.rev %>.js'
                 }]
             }
         },
@@ -162,6 +170,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-text-replace');
     grunt.loadNpmTasks('grunt-sftp-deploy');
+    grunt.loadNpmTasks('grunt-rev');
+    grunt.loadNpmTasks('grunt-rev');
 
     grunt.registerTask('default', ['clean', 'concat', 'compass', 'jshint', 'uglify', 'imagemin', 'htmlmin', 'copy', 'replace', 'watch']);
     grunt.registerTask('deploy:assets', ['sftp-deploy:cdn']);

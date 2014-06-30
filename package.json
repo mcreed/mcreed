@@ -16,6 +16,8 @@
     "grunt-autoshot": "~0.1.0",
     "grunt-sftp-deploy": "0.0.11",
     "grunt-contrib-clean": "~0.5.0",
-    "grunt-text-replace": "~0.3.12"
+    "grunt-text-replace": "~0.3.12",
+    "grunt-usemin": "~2.3.0",
+    "grunt-rev": "~0.1.0"
   }
 }
