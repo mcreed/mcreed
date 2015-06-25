@@ -187,7 +187,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', ['clean', 'concat', 'compass', 'jshint', 'uglify', 'imagemin', 'htmlmin', 'copy', 'rename', 'replace', 'watch']);
     grunt.registerTask('deploy:assets', ['sftp-deploy:cdn']);
-    grunt.registerTask('deploy', ['sftp-deploy:production']);
+    grunt.registerTask('deploy', ['sftp-deploy:production','sftp-deploy:cdn']);
 
 
 };
