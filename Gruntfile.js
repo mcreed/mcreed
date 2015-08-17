@@ -145,7 +145,7 @@ module.exports = function(grunt) {
                     authKey: 'cdn'
                 },
                 src: './dist/assets',
-                dest: 'cdn.mcreed.com/web/content/mcreed/',
+                dest: 'cdn.mcreed.com/web/content/mcreed',
                 exclusions: [
                     '.dist/**/.DS_Store'
                 ],
@@ -158,7 +158,7 @@ module.exports = function(grunt) {
                     authKey: 'production'
                 },
                 src: './dist/',
-                dest: 'www.mcreed.com/web/content/',
+                dest: 'www.mcreed.com/web/content',
                 exclusions: [
                     './dist/**/.DS_Store',
                     './dist/assets'
